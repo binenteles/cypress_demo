@@ -10,7 +10,7 @@ function loginWithStandardUser(user: string) {
     cy.get(login.password).click();
     cy.get(login.password).type('secret_sauce');
     cy.get(login.loginButton).click();
-    cy.get(inventory.title).should('be.visible');
+    //cy.get(inventory.title).should('be.visible');
 }
 
 function logout() {
@@ -23,10 +23,13 @@ function logout() {
 describe('On demo website', () => {
     it('using correct credential should be able to login with standard user', () => {
         loginWithStandardUser('standard_user');
+        cy.get(inventory.title).should('be.visible');
         logout();
     });
 
-    it('using correct credential should be able to login with locked out user', () => {
+    it('should not be able to login with locked out user', () => {
         loginWithStandardUser('locked_out_user');
+        cy.get(login.error).should('be.visible');
+        cy.get(login.error).should('have.text', 'Epic sadface: Sorry, this user has been locked out.')
     })
 })
