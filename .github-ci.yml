@@ -24,7 +24,7 @@ on:
         run: |
           mkdir public
           cp -r cypress/videos public/videos
-          cp -r cypress/screenshoots public/screenshots
+          cp -r cypress/screenshots public/screenshots
 
       - name: Merge test reports
         run: npm run combine:report
