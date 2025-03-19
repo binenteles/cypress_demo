@@ -6,7 +6,7 @@ on:
 
 jobs:
   cypress-test:
-    name: Run on Chrome 114
+    name: Run on Chrome
     runs-on: ubuntu-24.04
     container: cypress/browsers:node-20.14.0-chrome-114.0.5735.90-1
     steps:
