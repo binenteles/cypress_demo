@@ -25,6 +25,7 @@ describe('On demo website', () => {
         loginWithStandardUser('standard_user');
         cy.get(inventory.title).should('be.visible');
         logout();
+        //add comment
     });
 
     it('should not be able to login with locked out user', () => {
