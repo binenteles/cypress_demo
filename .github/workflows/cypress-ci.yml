@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install cypress and verify
+      - name: Install Cypress and verify
         run: |
           npm ci
-          $(npm bin)/cypress verify
+          npx cypress verify
 
       - name: Run Cypress tests
         run: npm run test:chrome
@@ -23,9 +23,9 @@ jobs:
 
       - name: Copy test execution video and screenshots
         run: |
-          mkdir public
-          cp -r cypress/videos public/videos
-          cp -r cypress/screenshots public/screenshots
+          mkdir -p public
+          if [ -d cypress/videos ]; then cp -r cypress/videos public/videos; fi
+          if [ -d cypress/screenshots ]; then cp -r cypress/screenshots public/screenshots; fi
 
       - name: Merge test reports
         run: npm run combine:report
@@ -33,7 +33,7 @@ jobs:
       - name: Generate HTML report
         run: npm run generate:report
 
-      - name: Deploy report page on Github Page
+      - name: Deploy report page on GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
