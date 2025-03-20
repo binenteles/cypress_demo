@@ -6,9 +6,9 @@ on:
 
 jobs:
   cypress-test:
-    name: Run on Chrome
-    runs-on: ubuntu-24.04
-    container: cypress/browsers:node-20.14.0-chrome-114.0.5735.90-1
+    name: Run on Chrome 129
+    runs-on: ubuntu-22.04
+    container: cypress/browsers:node-20.18.0-chrome-129.0.6668.89-1-ff-131.0.2-edge-129.0.2792.65-1
     steps:
       - uses: actions/checkout@v4
 
