@@ -17,21 +17,31 @@ jobs:
           npm ci
           npx cypress verify
 
+      - name: Ensure reports directory exists
+        run: mkdir -p cypress/reports
+
       - name: Run Cypress tests
         run: npm run test:chrome
         continue-on-error: false
 
-      - name: Copy test execution video and screenshots
+      - name: Ensure reports exist before merging
         run: |
-          mkdir -p public
-          if [ -d cypress/videos ]; then cp -r cypress/videos public/videos; fi
-          if [ -d cypress/screenshots ]; then cp -r cypress/screenshots public/screenshots; fi
+          if [ -z "$(ls -A cypress/reports/*.json 2>/dev/null)" ]; then 
+            echo "No reports found. Skipping merge."; 
+            exit 1; 
+          fi
 
       - name: Merge test reports
         run: npm run combine:report
 
       - name: Generate HTML report
         run: npm run generate:report
+
+      - name: Copy test execution video and screenshots
+        run: |
+          mkdir -p public
+          if [ -d cypress/videos ]; then cp -r cypress/videos public/videos; fi
+          if [ -d cypress/screenshots ]; then cp -r cypress/screenshots public/screenshots; fi
 
       - name: Deploy report page on GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
