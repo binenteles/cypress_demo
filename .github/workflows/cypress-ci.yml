@@ -18,7 +18,7 @@ jobs:
           npx cypress verify
 
       - name: Ensure reports directory exists
-        run: mkdir -p cypress/reports public
+        run: mkdir -p public cypress/reports
 
       - name: Run Cypress tests
         run: npm run test:chrome
@@ -28,10 +28,12 @@ jobs:
         run: npm run combine:report
 
       - name: Generate HTML report
+        run: npm run generate:report
+
+      - name: Move reports to root
         run: |
-          npm run generate:report
           mkdir -p public
-          cp -r cypress/reports/* public/
+          mv cypress/reports/*.html public/index.html
 
       - name: Deploy report page on GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
